@@ -35,10 +35,9 @@ module RestPack::Serializer::SideLoading
           elsif association.macro.to_s.match(/has_/)
             "#{key}.#{association.plural_name}"
           end
-
           links.merge!(link_key => {
             :href => href_prefix + url_for_association(association),
-            :type => association.plural_name.to_sym
+            :type => association.class_name.underscore.pluralize.to_sym
             }
           )
         end

@@ -11,8 +11,8 @@ module RestPack::Serializer::Paging
       page = page.reorder(options.sorting) if options.sorting.any?
 
       result = RestPack::Serializer::Result.new
-      result.resources[self.key] = serialize_page(page, options)
-      result.meta[self.key] = serialize_meta(page, options)
+      result.resources[options.key || self.key] = serialize_page(page, options)
+      result.meta[options.key || self.key] = serialize_meta(page, options)
 
       if options.include_links
         result.links = self.links

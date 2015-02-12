@@ -81,6 +81,7 @@ module MyApp
     attr_accessible :name, :website
 
     has_many :albums
+    has_many :records, class_name: 'Album'
     has_many :songs
     has_many :payments
     has_many :fans, :through => :payments
@@ -112,6 +113,7 @@ module MyApp
 
     has_many :generic_metadata, as: :linked
     belongs_to :artist
+    belongs_to :record, class_name: 'Album', foreign_key: 'album_id'
     belongs_to :album
   end
 
