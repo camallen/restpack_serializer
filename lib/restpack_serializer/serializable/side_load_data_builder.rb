@@ -51,11 +51,19 @@ module RestPack
 
       def has_association_relation
         return {} if @models.empty?
-        serializer_class = RestPack::Serializer::Factory.create(@association.class_name).class
+        serializer_class = select_serializer_class
         options = RestPack::Serializer::Options.new(serializer_class)
         yield options
         options.include_links = false
         serializer_class.page_with_options(options)
+      end
+
+      def select_serializer_class
+        begin
+          RestPack::Serializer::Factory.create(@association.name.to_s.classify)
+        rescue RestPack::Serializer::UnknownSerializer
+          RestPack::Serializer::Factory.create(@association.class_name)
+        end.class
       end
     end
   end
